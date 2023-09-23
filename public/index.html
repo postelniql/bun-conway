@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conway's game of life</title>
+    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="mainWrapper">
+      <form
+        hx-post="/startGame"
+        hx-swap="innerHTML"
+        hx-target="#gameOfLifeGrid"
+      >
+        <input
+          class="sizeInput"
+          type="number"
+          name="matrixSize"
+          placeholder="Input grid size, default is 10"
+          min="10"
+          max="50"
+        />
+        <input type="submit" value="Start" />
+      </form>
+
+      <button
+        id="stopGameButton"
+        hx-get="/stopGame"
+        hx-trigger="click"
+        hx-target="#gameOfLifeGrid"
+        hx-swap="innerHTML"
+      >
+        Stop
+      </button>
+    </div>
+
+    <div id="gameOfLifeGrid">
+      <!-- Will dynamically load the grid here -->
+    </div>
+
+    <script>
+      document.body.addEventListener("htmx:afterSwap", function (event) {
+        let grid = document.getElementById("game-grid");
+        if (grid) {
+          let gridSize = grid.getAttribute("game-grid-size");
+          grid.style.setProperty("--game-grid-size", gridSize);
+        }
+      });
+    </script>
+  </body>
+</html>
