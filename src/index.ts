@@ -17,7 +17,7 @@ async function fetchHandler(request: Request): Promise<Response> {
 
   if (url.pathname === "/startGame") {
     const reqData = await request.formData();
-    const gridSizeUserInput = Number(reqData.get("matrixSize"));
+    const gridSizeUserInput = Number(reqData.get("gridSize"));
 
     const gameData = startGame(gridSizeUserInput);
     return new Response(gameData, {

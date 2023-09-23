@@ -17,7 +17,7 @@
         <input
           class="sizeInput"
           type="number"
-          name="matrixSize"
+          name="gridSize"
           placeholder="Input grid size, default is 10"
           min="10"
           max="50"
@@ -41,7 +41,7 @@
     </div>
 
     <script>
-      document.body.addEventListener("htmx:afterSwap", function (event) {
+      document.body.addEventListener("htmx:afterSettle", function (event) {
         let grid = document.getElementById("game-grid");
         if (grid) {
           let gridSize = grid.getAttribute("game-grid-size");

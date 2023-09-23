@@ -14,7 +14,6 @@ const generateInitialGrid = (gridSize: number) => {
 
 export const loadInitialGrid = (gridSize: number) => {
   const grid = generateInitialGrid(gridSize);
-
   return `<div class="grid" id='game-grid' game-grid-size="${gridSize}">${grid} </div>`;
 };
 
