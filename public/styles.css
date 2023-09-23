@@ -1,6 +1,15 @@
 .mainWrapper {
   display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin: 50px auto;
+}
+
+.inputTabWrapper {
+  display: flex;
   flex-direction: row;
+  margin-bottom: 30px;
+  column-gap: 5px;
 }
 
 .sizeInput {
@@ -9,13 +18,16 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(var(--game-grid-size), 20px);
-  gap: 2px;
+  grid-template-columns: repeat(var(--game-grid-size), 30px);
 }
+
 .cell {
-  width: 20px;
-  height: 20px;
-  border: 1px solid black;
+  width: 30px;
+  height: 30px;
+  border: 1px solid grey;
   background-color: white;
-  gap: 2px;
+}
+
+.alive {
+  background-color: black;
 }

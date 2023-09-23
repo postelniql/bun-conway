@@ -11,6 +11,7 @@ export const startGame = (gridSizeUserInput: number) => {
     : DEFAULT_GRID_SIZE;
 
   const gridHTML = loadInitialGrid(gridSize);
+
   return gridHTML;
 };
 export const stopGame = () => {

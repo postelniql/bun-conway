@@ -1,20 +1,39 @@
-export const DEFAULT_GRID_SIZE = 10;
+export const DEFAULT_GRID_SIZE = 25;
+const CHANCE_OF_ALIVE = 0.02;
+
+type GameGrid = string[][];
 
 export const isValidGridSizeInput = (input: number) => {
   return input !== 0;
 };
 
 const generateInitialGrid = (gridSize: number) => {
-  const grid = Array.from({ length: gridSize }).map(() =>
+  return Array.from({ length: gridSize }).map(() =>
     Array.from({ length: gridSize }).map(() => `<div class='cell'></div>`)
   );
+};
 
+const serializeGrid = (grid: GameGrid) => {
   return grid.map((row) => row.join("")).join("");
+};
+
+const injectLifeIntoCells = (grid: GameGrid) => {
+  grid.forEach((row) =>
+    row.forEach((_, index) => {
+      if (Math.random() < CHANCE_OF_ALIVE) {
+        row[index] = `<div class='cell alive'></div>`;
+      }
+    })
+  );
 };
 
 export const loadInitialGrid = (gridSize: number) => {
   const grid = generateInitialGrid(gridSize);
-  return `<div class="grid" id='game-grid' game-grid-size="${gridSize}">${grid} </div>`;
+
+  injectLifeIntoCells(grid);
+
+  const serializedGrid = serializeGrid(grid);
+  return `<div class="grid" id='game-grid' game-grid-size="${gridSize}">${serializedGrid} </div>`;
 };
 
 export const clearGrid = () => {
