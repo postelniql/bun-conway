@@ -4,21 +4,22 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Conway's game of life</title>
-    <script src="https://unpkg.com/htmx.org@1.6.1"></script>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.6"
+      integrity="sha384-FhXw7b6AlE/jyjlZH5iHa/tTe9EpJ1Y55RjcgPbjeWMskSxZt1v9qkxLJWNJaGni"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/ws.js"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <div class="mainWrapper">
-      <div class="inputTabWrapper">
-        <form
-          hx-post="/startGame"
-          hx-swap="innerHTML"
-          hx-target="#gameOfLifeGrid"
-        >
+      <div class="inputTabWrapper" hx-ext="ws" ws-connect="/gameControl">
+        <form id="gameOfLifeGrid" name="startGame" ws-send>
           <input
             class="sizeInput"
             type="number"
-            name="gridSize"
+            name="startGame"
             placeholder="Input grid size, default is 25"
             min="10"
             max="50"
@@ -26,22 +27,13 @@
           <input type="submit" value="Start" />
         </form>
 
-        <button
-          id="stopGameButton"
-          hx-get="/stopGame"
-          hx-trigger="click"
-          hx-target="#gameOfLifeGrid"
-          hx-swap="innerHTML"
-        >
-          Stop
-        </button>
-      </div>
+        <button ws-send id="gameOfLifeGrid" name="stopGame">Stop</button>
 
-      <div id="gameOfLifeGrid">
-        <!-- Will dynamically load the grid here -->
+        <div id="gameOfLifeGrid" hx-swap-oob="innerHTML">
+          <!-- Will dynamically load the grid here -->
+        </div>
       </div>
     </div>
-
     <script>
       document.body.addEventListener("htmx:afterSettle", function (event) {
         let grid = document.getElementById("game-grid");

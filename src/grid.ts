@@ -1,4 +1,5 @@
 export const DEFAULT_GRID_SIZE = 25;
+export const GENERATION_TTL_MS = 500;
 const CHANCE_OF_ALIVE = 0.02;
 
 type GameGrid = string[][];
@@ -39,5 +40,10 @@ export const loadInitialGrid = (gridSize: number) => {
 export const clearGrid = () => {
   const grid = "";
 
+  return grid;
+};
+
+export const nextGeneration = (grid: GameGrid) => {
+  console.log("returned new generation");
   return grid;
 };

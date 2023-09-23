@@ -1,8 +1,10 @@
 import {
   clearGrid,
   DEFAULT_GRID_SIZE,
+  GENERATION_TTL_MS,
   isValidGridSizeInput,
   loadInitialGrid,
+  nextGeneration,
 } from "./grid";
 
 export const startGame = (gridSizeUserInput: number) => {
@@ -10,10 +12,11 @@ export const startGame = (gridSizeUserInput: number) => {
     ? gridSizeUserInput
     : DEFAULT_GRID_SIZE;
 
-  const gridHTML = loadInitialGrid(gridSize);
+  let gridHTML = loadInitialGrid(gridSize);
 
   return gridHTML;
 };
+
 export const stopGame = () => {
   const gridHTML = clearGrid();
   return gridHTML;
