@@ -1,5 +1,7 @@
 # bun-conway
 
+Attempt at coding the Conway's Game of Life but fully SSR, using a functional programming approach, bun and htmx cause why not.
+
 To install dependencies:
 
 ```bash
