@@ -7,7 +7,7 @@ import {
 } from "./commands";
 
 const server = Bun.serve({
-  fetch(req, server) {
+  fetch: (req, server) => {
     const success = server.upgrade(req);
     if (success) {
       console.info(`Bun server upgraded to ws`);
@@ -29,7 +29,7 @@ const server = Bun.serve({
     return new Response("Not Found", { status: 404 });
   },
   websocket: {
-    async message(ws, message) {
+    message: async (ws, message) => {
       const command = parseWsMessage(message);
       const commandKey = getCommandKey(command) as Command;
 
