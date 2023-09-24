@@ -3,6 +3,7 @@ import {
   commandHandlers,
   existsHandlerForKey,
   getCommandKey,
+  Message,
   parseWsMessage,
 } from "./commands";
 
@@ -35,7 +36,7 @@ const server = Bun.serve({
 
       if (commandKey && existsHandlerForKey(commandKey)) {
         const handle = commandHandlers[commandKey];
-        handle(command, (data) => ws.send(data));
+        handle(command as any, (data) => ws.send(data));
       } else {
         ws.send("Unknown command");
       }
