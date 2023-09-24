@@ -15,7 +15,7 @@
   <body>
     <div class="mainWrapper">
       <div class="inputTabWrapper" hx-ext="ws" ws-connect="/gameControl">
-        <form id="gameOfLifeGrid" name="startGame" ws-send>
+        <form name="startGame" ws-send>
           <input
             class="sizeInput"
             type="number"
@@ -27,16 +27,19 @@
           <input type="submit" value="Start" />
         </form>
 
-        <button ws-send id="gameOfLifeGrid" name="stopGame">Stop</button>
+        <button name="stopGame" ws-send>Stop</button>
+      </div>
 
-        <div id="gameOfLifeGrid" hx-swap-oob="innerHTML">
+      <div id="gameOfLifeGrid">
+        <div id="game-grid">
           <!-- Will dynamically load the grid here -->
         </div>
       </div>
     </div>
     <script>
-      document.body.addEventListener("htmx:afterSettle", function (event) {
-        let grid = document.getElementById("game-grid");
+      document.body.addEventListener("htmx:load", function (event) {
+        let wrapper = document.getElementById("gameOfLifeGrid");
+        let grid = wrapper.querySelector("#game-grid");
         if (grid) {
           let gridSize = grid.getAttribute("game-grid-size");
           grid.style.setProperty("--game-grid-size", gridSize);

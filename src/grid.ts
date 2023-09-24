@@ -38,7 +38,7 @@ export const loadInitialGrid = (gridSize: number) => {
 };
 
 export const clearGrid = () => {
-  const grid = "";
+  const grid = "<div id='game-grid'></div>";
 
   return grid;
 };

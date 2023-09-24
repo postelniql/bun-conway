@@ -11,12 +11,10 @@ const server = Bun.serve({
     const url = new URL(req.url);
 
     if (url.pathname === "" || url.pathname === "/") {
-      console.log("returns index");
       return new Response(Bun.file("public/index.html"));
     }
 
     if (url.pathname === "/styles.css") {
-      console.log("returns css");
       return new Response(Bun.file("public/styles.css"), {
         headers: { "Content-Type": "text/css" },
       });
@@ -26,7 +24,6 @@ const server = Bun.serve({
   },
   websocket: {
     async message(ws, message) {
-      console.log(`Received ${message} from ${JSON.stringify(ws)}}`);
       let jsonMessage;
       if (typeof message === "string") {
         jsonMessage = JSON.parse(message);
