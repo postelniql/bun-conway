@@ -1,4 +1,4 @@
-import { generateGameGrid } from "./game";
+import { clearGameGrid, generateGameGrid } from "./game";
 
 export enum Command {
   GenerateGrid = "generateGrid",
@@ -13,6 +13,9 @@ type GenerateGridMessage = {
 type ClearGridMessage = { clearGrid: string };
 type StartGameMessage = { startGame: string };
 type StopGameMessage = { stopGame: string };
+type EmptyMessage = {};
+
+type WsSendCallback = (data: string) => void;
 
 type CommandToMessageMapping = {
   [Command.GenerateGrid]: GenerateGridMessage;
@@ -25,15 +28,27 @@ export type Message =
   | GenerateGridMessage
   | ClearGridMessage
   | StartGameMessage
-  | StopGameMessage;
+  | StopGameMessage
+  | EmptyMessage;
 
-type CommandHandler<T> = (message: T) => void;
+type CommandHandler<T> = (message: T, sendData: WsSendCallback) => void;
 
-const generateGridHandler = (message: GenerateGridMessage) => {
-  console.log("generate");
+const generateGridHandler = (
+  message: GenerateGridMessage,
+  sendData: WsSendCallback
+) => {
+  const gridSizeUserInput = Number(message.generateGrid);
+
+  const gameData = generateGameGrid(gridSizeUserInput);
+  sendData(gameData);
 };
-const clearGridHandler = (message: ClearGridMessage) => {
-  console.log("clear");
+const clearGridHandler = (
+  message: ClearGridMessage,
+  sendData: WsSendCallback
+) => {
+  const gridSizeUserInput = Number(message.clearGrid);
+  const gameData = clearGameGrid(gridSizeUserInput);
+  sendData(gameData);
 };
 const startGameHandler = (message: StartGameMessage) => {
   console.log("start");
@@ -51,7 +66,11 @@ export const commandHandlers: {
   [Command.StopGame]: stopGameHandler,
 };
 
-export const parseWsMessage = (rawMessage: string): Message | null => {
+export const parseWsMessage = (rawMessage: string | Buffer): Message => {
+  if (rawMessage instanceof Buffer) {
+    return {};
+  }
+
   const message = JSON.parse(rawMessage);
 
   if (message && typeof message.generateGrid === "string")
@@ -63,5 +82,5 @@ export const parseWsMessage = (rawMessage: string): Message | null => {
   if (message && typeof message.stopGame === "string")
     return message as StopGameMessage;
 
-  return null;
+  return {};
 };

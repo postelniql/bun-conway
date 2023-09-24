@@ -49,6 +49,21 @@
           grid.style.setProperty("--game-grid-size", gridSize);
         }
       });
+      document.body.addEventListener("htmx:wsConfigSend", function (event) {
+        if (
+          Object.keys(event.detail.parameters).find(
+            (key) => key === "clearGrid"
+          )
+        ) {
+          let wrapper = document.getElementById("gameOfLifeGrid");
+          let grid = wrapper.querySelector("#game-grid");
+          if (grid) {
+            let gridSize = grid.getAttribute("game-grid-size");
+
+            event.detail.parameters.clearGrid = gridSize;
+          }
+        }
+      });
     </script>
   </body>
 </html>

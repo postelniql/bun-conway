@@ -37,10 +37,11 @@ export const loadInitialGrid = (gridSize: number) => {
   return `<div class="grid" id='game-grid' game-grid-size="${gridSize}">${serializedGrid} </div>`;
 };
 
-export const clearGrid = () => {
-  const grid = "<div id='game-grid'></div>";
+export const clearGrid = (gridSize: number) => {
+  const grid = generateInitialGrid(gridSize);
 
-  return grid;
+  const serializedGrid = serializeGrid(grid);
+  return `<div class="grid" id='game-grid' game-grid-size="${gridSize}">${serializedGrid} </div>`;
 };
 
 export const nextGeneration = (grid: GameGrid) => {

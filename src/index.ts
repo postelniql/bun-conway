@@ -25,11 +25,12 @@ const server = Bun.serve({
   websocket: {
     async message(ws, message) {
       const jsonMessage = parseWsMessage(message);
+
       const commandKey = Object.keys(jsonMessage).find((key) =>
-        Object.values(Command).includes(key)
+        Object.values(Command).includes(key as Command)
       );
       if (commandKey && commandHandlers[commandKey]) {
-        commandHandlers[commandKey](jsonMessage);
+        commandHandlers[commandKey](jsonMessage, (data) => ws.send(data));
       } else {
         ws.send("Unknown command");
       }

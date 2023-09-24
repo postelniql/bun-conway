@@ -21,8 +21,8 @@ export const generateGameGrid = (
   return gridHTML;
 };
 
-export const clearGameGrid = () => {
-  const gridHTML = clearGrid();
+export const clearGameGrid = (gridSize: number) => {
+  const gridHTML = clearGrid(gridSize);
   return gridHTML;
 };
 
