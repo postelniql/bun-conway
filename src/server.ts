@@ -1,4 +1,10 @@
-import { Command, commandHandlers, parseWsMessage } from "./commands";
+import {
+  Command,
+  commandHandlers,
+  existsHandlerForKey,
+  getCommandKey,
+  parseWsMessage,
+} from "./commands";
 
 const server = Bun.serve({
   fetch(req, server) {
@@ -24,13 +30,12 @@ const server = Bun.serve({
   },
   websocket: {
     async message(ws, message) {
-      const jsonMessage = parseWsMessage(message);
+      const command = parseWsMessage(message);
+      const commandKey = getCommandKey(command) as Command;
 
-      const commandKey = Object.keys(jsonMessage).find((key) =>
-        Object.values(Command).includes(key as Command)
-      );
-      if (commandKey && commandHandlers[commandKey]) {
-        commandHandlers[commandKey](jsonMessage, (data) => ws.send(data));
+      if (commandKey && existsHandlerForKey(commandKey)) {
+        const handle = commandHandlers[commandKey];
+        handle(command, (data) => ws.send(data));
       } else {
         ws.send("Unknown command");
       }

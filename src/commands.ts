@@ -84,3 +84,13 @@ export const parseWsMessage = (rawMessage: string | Buffer): Message => {
 
   return {};
 };
+
+export const getCommandKey = (message: Message) => {
+  return Object.keys(message).find((key) =>
+    Object.values(Command).includes(key as Command)
+  );
+};
+
+export const existsHandlerForKey = (key: Command) => {
+  return Boolean(commandHandlers[key]);
+};

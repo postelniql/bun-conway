@@ -1,9 +1,9 @@
 {
   "name": "bun-conway",
-  "module": "index.ts",
+  "module": "server.ts",
   "type": "module",
   "scripts": {
-    "dev": "bun --hot run src/index.ts"
+    "dev": "bun --hot run src/server.ts"
   },
   "devDependencies": {
     "bun-types": "latest"
