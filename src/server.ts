@@ -3,7 +3,6 @@ import {
   commandHandlers,
   existsHandlerForKey,
   getCommandKey,
-  Message,
   parseWsMessage,
 } from "./commands";
 
