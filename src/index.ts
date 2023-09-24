@@ -1,4 +1,4 @@
-import { startGame, stopGame } from "./game";
+import { Command, commandHandlers, parseWsMessage } from "./commands";
 
 const server = Bun.serve({
   fetch(req, server) {
@@ -24,20 +24,12 @@ const server = Bun.serve({
   },
   websocket: {
     async message(ws, message) {
-      let jsonMessage;
-      if (typeof message === "string") {
-        jsonMessage = JSON.parse(message);
-      } else if (message instanceof Buffer) {
-        jsonMessage = JSON.parse(message.toString("utf8"));
-      }
-      if ("startGame" in jsonMessage) {
-        const gridSizeUserInput = Number(jsonMessage.startGame);
-
-        const gameData = startGame(gridSizeUserInput);
-        ws.send(gameData);
-      } else if ("stopGame" in jsonMessage) {
-        const gameData = stopGame();
-        ws.send(gameData);
+      const jsonMessage = parseWsMessage(message);
+      const commandKey = Object.keys(jsonMessage).find((key) =>
+        Object.values(Command).includes(key)
+      );
+      if (commandKey && commandHandlers[commandKey]) {
+        commandHandlers[commandKey](jsonMessage);
       } else {
         ws.send("Unknown command");
       }

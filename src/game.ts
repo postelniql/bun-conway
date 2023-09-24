@@ -7,7 +7,11 @@ import {
   nextGeneration,
 } from "./grid";
 
-export const startGame = (gridSizeUserInput: number) => {
+export type GameConfiguration = string;
+
+export const generateGameGrid = (
+  gridSizeUserInput: number
+): GameConfiguration => {
   const gridSize = isValidGridSizeInput(gridSizeUserInput)
     ? gridSizeUserInput
     : DEFAULT_GRID_SIZE;
@@ -17,7 +21,11 @@ export const startGame = (gridSizeUserInput: number) => {
   return gridHTML;
 };
 
-export const stopGame = () => {
+export const clearGameGrid = () => {
   const gridHTML = clearGrid();
   return gridHTML;
 };
+
+export const startGame = () => {};
+
+export const stopGame = () => {};
